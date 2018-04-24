@@ -48,7 +48,12 @@ in
 
   config = with config.networking.rkn; {
     services.openvpn.servers."${instance}" = {
-      config = pkgs.lib.readFile routes;
+      config = ''
+        push "dhcp-option DNS 1.1.1.1"
+        push "route 1.1.1.1"
+
+        ${pkgs.lib.readFile routes}
+      '';
       up = ''
         echo 1 > "/proc/sys/net/ipv4/conf/$dev/forwarding"
         iptables -w -A FORWARD -i "$dev" -j ACCEPT
