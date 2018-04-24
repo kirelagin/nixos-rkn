@@ -66,7 +66,7 @@ in
 
     networking.firewall.extraCommands = ''
       iptables -w -N nixos-rkn-fwd
-      iptables -w -A nixos-rkn-fwd -m state --state ESTABLISHED,RELATED -j ACCEPT
+      iptables -w -A nixos-rkn-fwd -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
       iptables -w -A FORWARD -j nixos-rkn-fwd
     '';
     networking.firewall.extraStopCommands = ''
